@@ -26,3 +26,19 @@ print(cleaner.stem_sentence(sentence=string,
 
 print(cleaner.tokenizer('Um exemplo de tokens.'))
 
+string_web = 'Acesse esses links para ganhar dinheiro: https://easymoney.com.net and http://falselink.com'
+print(cleaner.stem_sentence(sentence=string_web,
+                            remove_stop_words=False,
+                            remove_punctuation=True,
+                            replace_garbage=True
+                            )
+      )
+
+en_cleaner = CleanSentences(idiom='english')
+string_web = 'Access these links to gain money: https://easymoney.com.net and http://falselink.com'
+print(en_cleaner.stem_sentence(sentence=string_web,
+                            remove_stop_words=True,
+                            remove_punctuation=True,
+                            replace_garbage=True
+                            )
+      )

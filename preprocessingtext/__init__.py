@@ -39,7 +39,7 @@ class CleanSentences:
         # Stemmer que funciona bem com o português
         self.stemmer = nltk.stem.RSLPStemmer()
 
-        self.list_to_replace = ['https://', 'http://', 'R$', '$', '’',' brasil', ' Brasil']
+        self.list_to_replace = ['https://', 'http://', '$']
 
     def tokenizer(self, words):
         """
@@ -133,17 +133,17 @@ class CleanSentences:
         if sentence == '':
             raise ValueError('A sentence needs to be passed as an argument.')
 
+        if replace_garbage:
+            sentence = self._replace_garbage_sentences(sentence)
+
+        if normalize_text:
+            sentence = normalize('NFKD', sentence).encode('ASCII', 'ignore').decode("utf-8")
+
         if remove_punctuation:
             sentence = self._remove_punctuation(sentence)
 
         if remove_stop_words:
             sentence = self._remove_stop_words(sentence)
-
-        if normalize_text:
-            sentence = normalize('NFKD', sentence).encode('ASCII', 'ignore').decode("utf-8")
-
-        if replace_garbage:
-            sentence = self._replace_garbage_sentences(sentence)
 
         result = [self.stemmer.stem(word) for word in self.tokenizer(sentence)]
 

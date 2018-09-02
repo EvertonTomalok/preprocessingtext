@@ -13,7 +13,7 @@ A tool short, but very usefull to help in pre-processing data from texts.
 
 ## Usage
 
-Using stem_sentence()
+#### Using stem_sentence()
 
     >> from preprocessingtext import CleanSentence
     
@@ -24,28 +24,43 @@ Using stem_sentence()
 To init a a class, you need to pass the idiom that you want to work. The custom value, is "portuguese".<br><br>
 
 Before, you can instance a new object from CleanSentence, and call the method stem_sentence. You can choose in use 
-"remove_stop_words" from string (pass True or False) and "remove_punctuation" from string (pass True or False).
+"remove_stop_words" from string (pass True or False) and "remove_punctuation" from string (pass True or False), <br>
+"replace_garbage" (True or False) removing values from data, and "normalize_text" (True or False) to normalize text.
+<br><br><br>
+#### Usage of list_to_replace
+You can improve what you need to replace (clean) in your data. <br>You can use "cleaner.list_to_replace.append('what_you_need_to_add')",
+or you can pass a new list of values: <br>cleaner.list_to_replace = ['item1', 'item2', 'item3']
+
+    # Custom value of list_to_replace
+    >> list_to_replace = ['https://', 'http://', '$']
+    
+    # Adding new values
+    list_to_replace.append('item1')
+    ['https://', 'http://', 'R$', '$', 'item1']
+    
+    # Replacing values
+    >> list_to_replace = ['item1', 'item2', 'item3']
 <br><br><br>
 
-Using tokenizer()
+#### Using tokenizer()
 
     >> cleaner.tokenizer('Um exemplo de tokens.')
     
     >> ['Um', 'exemplo', 'de', 'tokens']
 
 ## Example
-
-    >> string = "Eu sou uma sentença comum. Serei pré-processada com este modulo, veremos a serguir usando os métodos disponiveis"
     
+    ## Using all parameters of stem_sentence()
+    >> string = "Eu sou uma sentença comum. Serei pré-processada com este modulo, veremos a serguir usando os métodos disponiveis"
     >> cleaner.stem_sentence(sentence=string,
-                            remove_stop_words=True,
-                            remove_punctuation=True,
-                            normalize_text=True,
-                            replace_garbage=True
+                             remove_stop_words=True,
+                             remove_punctuation=True,
+                             normalize_text=True,
+                             replace_garbage=True
                             )
     >> sentenc comum pre-process modul ver segu us metod disponi
     
-    
+    ## Don't using remove_stop_words
     >> print(cleaner.stem_sentence(sentence=string,
                             remove_stop_words=False,
                             remove_punctuation=True,
@@ -55,9 +70,30 @@ Using tokenizer()
       )
     >> eu sou uma sentenc comum ser pre-process com est modul ver a segu us os metod disponi
     
-    
+    ## Tokenizer
     >> print(cleaner.tokenizer('Um exemplo de tokens.'))
     >> ['Um', 'exemplo', 'de', 'tokens']
+    
+    ## Cleaning garbage words
+    >> string_web = 'Acesse esses links para ganhar dinheiro: https://easymoney.com.net and http://falselink.com'
+    >> cleaner.stem_sentence(sentence=string_web,
+                             remove_stop_words=False,
+                             remove_punctuation=True,
+                             replace_garbage=True
+                            )
+    >> acess ess link par ganh dinh easymoney.com.net and falselink.com
+            
+## English example
+    >> en_cleaner = CleanSentences(idiom='english')
+    
+    >> string_web = 'Access these links to gain money: https://easymoney.com.net and http://falselink.com'
+    >> print(en_cleaner.stem_sentence(sentence=string_web,
+                                      remove_stop_words=True,
+                                      remove_punctuation=True,
+                                      replace_garbage=True
+                                      )
+            )     
+    >> acc link gain money easymoney.com.net falselink.com
 
 <br><br><br>
 # Author
