@@ -23,3 +23,6 @@ print(cleaner.stem_sentence(sentence=string,
                             replace_garbage=True
                             )
       )
+
+print(cleaner.tokenizer('Um exemplo de tokens.'))
+

@@ -8,7 +8,7 @@ from unicodedata import normalize
 
 name = 'preprocessingtext'
 __author__ = 'Everton Tomalok'
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 __email__ = 'evertontomalok123@gmail.com'
 
 
@@ -17,7 +17,7 @@ class CleanSentences:
     Esta classe é designada ao pré-processamento do texto, para posterior análise do sentimento.
 
     Funções:
-        => _tokenizer(self, words)
+        => tokenizer(self, words)
         => _remove_stop_words(self, sentence)  ; sentence deve ser uma "STRING"
         => _remove_punctuation(self, sentence)  ; sentence deve ser uma "STRING"
         => stem_setence(self, sentence="String", remove_stop_words = True, remove_punctuation= True)  ; sentence deve ser uma "STRING"
@@ -41,7 +41,7 @@ class CleanSentences:
 
         self.list_to_replace = ['https://', 'http://', 'R$', '$', '’',' brasil', ' Brasil']
 
-    def _tokenizer(self, words):
+    def tokenizer(self, words):
         """
         A String is received, and an array of tokens is returned.
 
@@ -52,12 +52,10 @@ class CleanSentences:
 
         if type(words) == list:
             words = ' '.join(words)
+
         tokens = TextBlob(words)
 
-        tokens_return = []
-
-        for prhase in tokens.words:
-            tokens_return.append(prhase)
+        tokens_return = [prhase for prhase in tokens.words]
 
         return tokens_return
 
@@ -69,7 +67,7 @@ class CleanSentences:
         :return STRING
         """
 
-        sentence = self._tokenizer(sentence)
+        sentence = self.tokenizer(sentence)
         words_no_stop_words = [word.lower() for word in sentence if word.lower() not in self.stopwords]
         words_no_stop_words = ' '.join(words_no_stop_words)
 
@@ -83,7 +81,7 @@ class CleanSentences:
         :return STRING
         """
 
-        sentence = self._tokenizer(sentence)
+        sentence = self.tokenizer(sentence)
 
         prhase_no_punc = [word for word in sentence if word not in punctuation]
 
@@ -147,7 +145,7 @@ class CleanSentences:
         if replace_garbage:
             sentence = self._replace_garbage_sentences(sentence)
 
-        result = [self.stemmer.stem(word) for word in self._tokenizer(sentence)]
+        result = [self.stemmer.stem(word) for word in self.tokenizer(sentence)]
 
         result = ' '.join(result)
 

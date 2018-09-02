@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from .preprocessingtext import name, __version__
+from preprocessingtext import name, __version__
 
 with open("README.md", "r") as file:
     long_description = file.read()

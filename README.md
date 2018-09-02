@@ -13,16 +13,25 @@ A tool short, but very usefull to help in pre-processing data from texts.
 
 ## Usage
 
+Using stem_sentence()
+
     >> from preprocessingtext import CleanSentence
     
     >> cleaner =  CleanSentence(idiom='portuguese')
     
-    >> cleaner.stem_sentence(sentence="String", remove_stop_words=True, remove_punctuation=True)
+    >> cleaner.stem_sentence(sentence="String", remove_stop_words=True, remove_punctuation=True, normalize_text=True, replace_garbage=True)
 
 To init a a class, you need to pass the idiom that you want to work. The custom value, is "portuguese".<br><br>
 
 Before, you can instance a new object from CleanSentence, and call the method stem_sentence. You can choose in use 
 "remove_stop_words" from string (pass True or False) and "remove_punctuation" from string (pass True or False).
+<br><br><br>
+
+Using tokenizer()
+
+    >> cleaner.tokenizer('Um exemplo de tokens.')
+    
+    >> ['Um', 'exemplo', 'de', 'tokens']
 
 ## Example
 
@@ -34,8 +43,8 @@ Before, you can instance a new object from CleanSentence, and call the method st
                             normalize_text=True,
                             replace_garbage=True
                             )
-       
     >> sentenc comum pre-process modul ver segu us metod disponi
+    
     
     >> print(cleaner.stem_sentence(sentence=string,
                             remove_stop_words=False,
@@ -44,8 +53,11 @@ Before, you can instance a new object from CleanSentence, and call the method st
                             replace_garbage=True
                             )
       )
-      
     >> eu sou uma sentenc comum ser pre-process com est modul ver a segu us os metod disponi
+    
+    
+    >> print(cleaner.tokenizer('Um exemplo de tokens.'))
+    >> ['Um', 'exemplo', 'de', 'tokens']
 
 <br><br><br>
 # Author
