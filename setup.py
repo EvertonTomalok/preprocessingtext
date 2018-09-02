@@ -12,9 +12,9 @@ setup(
     author_email="evertontomalok123@gmail.com",
     description="A series of methods to help you work pre processing of text in general, like stem, tokenizer and others.",
     long_description=long_description.replace('<br>', ' '),
-    url="https://github.com/EvertonTomalok/emailtoolspython",
-    download_url='https://github.com/EvertonTomalok/emailtoolspython/archive/master.zip',
-    keywords=['preprocessing text'],
+    url="https://github.com/EvertonTomalok/preprocessingtext",
+    download_url='https://github.com/EvertonTomalok/preprocessingtext/archive/master.zip',
+    keywords=['pre-processing text'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

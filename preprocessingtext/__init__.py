@@ -1,14 +1,15 @@
-name = 'emailtoolspython'
-__author__ = 'Everton Tomalok'
-__version__ = '0.0.1'
-__email__ = 'evertontomalok123@gmail.com'
-
 # !/usr/bin/env python3
 # coding: utf-8
 
 from textblob import TextBlob
 import nltk
 from string import punctuation
+from unicodedata import normalize
+
+name = 'preprocessingtext'
+__author__ = 'Everton Tomalok'
+__version__ = '0.0.1'
+__email__ = 'evertontomalok123@gmail.com'
 
 
 class CleanSentences:
@@ -17,22 +18,36 @@ class CleanSentences:
 
     Funções:
         => _tokenizer(self, words)
-        => _removeStopWords(self, sentence)  ; sentence deve ser uma "STRING"
-        => _removePunctuation(self, sentence)  ; sentence deve ser uma "STRING"
-        => stemSetence(self, sentence="String", remove_stop_words = True, remove_punctuation= True)  ; sentence deve ser uma "STRING"
+        => _remove_stop_words(self, sentence)  ; sentence deve ser uma "STRING"
+        => _remove_punctuation(self, sentence)  ; sentence deve ser uma "STRING"
+        => stem_setence(self, sentence="String", remove_stop_words = True, remove_punctuation= True)  ; sentence deve ser uma "STRING"
 
     """
 
     def __init__(self, idiom='portuguese'):
         """
         Starta a classe, stop words custom Portuguese, e também o stemmer do nltk
+
+        :arg idiom: STRING
         """
-        self.stopwords = nltk.corpus.stopwords.words(idiom)
+        try:
+            self.stopwords = nltk.corpus.stopwords.words(idiom)
+        except LookupError:
+            nltk.download('stopwords')
+            self.stopwords = nltk.corpus.stopwords.words(idiom)
+
+        # Stemmer que funciona bem com o português
         self.stemmer = nltk.stem.RSLPStemmer()
+
+        self.list_to_replace = ['https://', 'http://', 'R$', '$', '’',' brasil', ' Brasil']
 
     def _tokenizer(self, words):
         """
         A String is received, and an array of tokens is returned.
+
+        :arg words: STRING
+
+        :return List of words: LIST
         """
 
         if type(words) == list:
@@ -49,6 +64,9 @@ class CleanSentences:
     def _remove_stop_words(self, sentence):
         """
         It receives a string, and removes the stop words (custom = portuguese) of the string, and return the result.
+
+        :arg sentence: STRING
+        :return STRING
         """
 
         sentence = self._tokenizer(sentence)
@@ -60,6 +78,9 @@ class CleanSentences:
     def _remove_punctuation(self, sentence):
         """
         It receives a string, and removes the punctuation of the string, and return the result.
+
+        :arg sentence: STRING
+        :return STRING
         """
 
         sentence = self._tokenizer(sentence)
@@ -73,13 +94,14 @@ class CleanSentences:
     def _replace_garbage_sentences(self, string):
         """
         A function to clean the string, removing tokens like http://, https://, etc.
-        """
 
-        list_to_replace = ['https://', 'http://', 'R$', '$', '’', ' brasil', ' Brasil']
+        :arg string: STRING
+        :return STRING
+        """
 
         string_to_clean = string
         try:
-            for item in list_to_replace:
+            for item in self.list_to_replace:
                 if item in string_to_clean:
                     string_to_clean = string_to_clean.replace(item, '')
         except Exception:
@@ -87,27 +109,43 @@ class CleanSentences:
 
         return string_to_clean
 
-    def stem_sentence(self, sentence='', remove_stop_words=True, remove_punctuation=True):
+    def stem_sentence(self,
+                      sentence='',
+                      remove_stop_words=True,
+                      remove_punctuation=True,
+                      normalize_text=True,
+                      replace_garbage=True):
+
         """
-            args=
+            :args :
                 sentence: String
                 remove_stop_words: Boolean
                 remove_punctuation: Boolean
+                normalize_text:Boolean
+                replace_garbage:Boolean
 
             A sentence needs to be passed as a string, and the parameters customs values of remove_stop_words and
             remove_punctuation is True, to remove the stop words and punctuation of the string.
+            normalize_text will remove accented characters.
+            replace_garbage will remove http://, https://, $,  and you can replace or append new items in
+            self.list_to_replace
 
-            If you set one or both to False, you'll disable these functions.
+        :return STRING
         """
         if sentence == '':
             raise ValueError('A sentence needs to be passed as an argument.')
 
-        if remove_punctuation is True:
-            sentence = self._replace_garbage_sentences(sentence)
+        if remove_punctuation:
             sentence = self._remove_punctuation(sentence)
 
-        if remove_stop_words is True:
+        if remove_stop_words:
             sentence = self._remove_stop_words(sentence)
+
+        if normalize_text:
+            sentence = normalize('NFKD', sentence).encode('ASCII', 'ignore').decode("utf-8")
+
+        if replace_garbage:
+            sentence = self._replace_garbage_sentences(sentence)
 
         result = [self.stemmer.stem(word) for word in self._tokenizer(sentence)]
 
