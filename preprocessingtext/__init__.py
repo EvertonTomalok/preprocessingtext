@@ -8,24 +8,28 @@ from unicodedata import normalize
 
 name = 'preprocessingtext'
 __author__ = 'Everton Tomalok'
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 __email__ = 'evertontomalok123@gmail.com'
 
 
 class CleanSentences:
     """
-    Esta classe é designada ao pré-processamento do texto, para posterior análise do sentimento.
+    This class it's designed to pre-processing text, to use for example, in a Sentiment Analysis.
+    ## Esta classe é designada ao pré-processamento do texto, para posterior análise do sentimento.
 
-    Funções:
+    Methods:
+
+        => stem_setence(self, sentence="String", remove_stop_words = True, remove_punctuation= True)
         => tokenizer(self, words)
-        => _remove_stop_words(self, sentence)  ; sentence deve ser uma "STRING"
-        => _remove_punctuation(self, sentence)  ; sentence deve ser uma "STRING"
-        => stem_setence(self, sentence="String", remove_stop_words = True, remove_punctuation= True)  ; sentence deve ser uma "STRING"
+        => _remove_stop_words(self, sentence)
+        => _remove_punctuation(self, sentence)
+        => _replace_garbage_sentences(self, string)
 
     """
 
     def __init__(self, idiom='portuguese'):
         """
+        Instance a new class; stop_word's custom value is Portuguese.
         Starta a classe, stop words custom Portuguese, e também o stemmer do nltk
 
         :arg idiom: STRING
