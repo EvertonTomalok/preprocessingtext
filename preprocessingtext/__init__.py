@@ -8,7 +8,7 @@ from unicodedata import normalize
 
 name = 'preprocessingtext'
 __author__ = 'Everton Tomalok'
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 __email__ = 'evertontomalok123@gmail.com'
 
 
